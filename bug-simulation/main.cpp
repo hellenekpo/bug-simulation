@@ -13,7 +13,7 @@ using namespace std;
 
 int main() {
     World hellen(5, 100);
-    cout << "Welcome to the Bug Simulation!\nThe population of "
+    cout << "Welcome to the Bug Simulation!\nThe populations of "
     << "Ants and Doodlebugs are currently coexisting in harmony.\n";
     hellen.printWorld();
     cout << "Doodlebug: 'Err...'\n"
