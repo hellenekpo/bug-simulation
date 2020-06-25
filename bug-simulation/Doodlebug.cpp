@@ -1,9 +1,7 @@
 #include "Doodlebug.h"
 using namespace std;
-
-void Doodlebug::breed(World &theWorld) {
-    cout << "Yes\n";
-}
+Doodlebug::Doodlebug(int row, int column) : Organism(row, column) {}
+Doodlebug::Doodlebug() : Organism() {}
 
 void Doodlebug::move(World& theWorld) {
     cout << "Doodlebug moving from " << rowPlace << ' ' << columnPlace;
@@ -67,4 +65,38 @@ void Doodlebug::move(World& theWorld) {
         Organism::move(theWorld, direction);
     }
     history[theWorld.timeStep] = doodleAte;
+}
+
+void Doodlebug::breed(World &theWorld) {
+    int newDoodRow = 0, newDoodColumn = 0;
+    bool hasBred = false;
+    cout << "Doodlebug ";
+    Organism::breed(theWorld);
+    if (rowPlace != 0 && theWorld.world[rowPlace-1][columnPlace] == '-') { // breeding up
+        newDoodRow = rowPlace - 1;
+        newDoodColumn = columnPlace;
+        hasBred = true;
+    }
+    else if (columnPlace != 19 && theWorld.world[rowPlace][columnPlace+1] == '-') { // breeding right
+        newDoodRow = rowPlace;
+        newDoodColumn = columnPlace + 1;
+        hasBred = true;
+    }
+    else if (rowPlace != 19 && theWorld.world[rowPlace+1][columnPlace] == 'o') { // breeding down
+        newDoodRow = rowPlace + 1;
+        newDoodColumn = columnPlace;
+        hasBred = true;
+    }
+    else if (columnPlace != 0 && theWorld.world[rowPlace][columnPlace-1] == '-') { // breeding left
+        newDoodRow = rowPlace;
+        newDoodColumn = columnPlace - 1;
+        hasBred = true;
+    }
+    
+    
+    if (hasBred) {
+        Doodlebug* doodlebug = new Doodlebug(newDoodRow, newDoodColumn);
+        theWorld.doodlebugs.push_back(*doodlebug);
+        theWorld.world[doodlebug->rowPlace][doodlebug->columnPlace] = 'o';
+    }
 }

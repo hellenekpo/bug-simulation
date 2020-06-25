@@ -14,7 +14,7 @@ const string& Organism::getCode() const {
 }
 
 void Organism::breed(World &theWorld) {
-    
+    cout << " is breeding...\n";
 }
 
 

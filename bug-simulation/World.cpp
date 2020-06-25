@@ -14,14 +14,18 @@ void World::moveOrganisms() {
 }
 
 void World::breedAnts() {
-    for (Ant& ant : ants) {
-        ant.breed(*this);
+    if (canBreed) {
+        for (Ant& ant : ants) {
+            ant.breed(*this);
+        }
     }
 }
 
 void World::breedDoods() {
-    for (Doodlebug& doodlebug : doodlebugs) {
-        doodlebug.breed(*this);
+    if (canBreed) {
+        for (Doodlebug& doodlebug : doodlebugs) {
+            doodlebug.breed(*this);
+        }
     }
 }
 
@@ -36,14 +40,35 @@ void World::printWorld() const {
     }
 }
 
-void World::timeStepWorld() {
+bool World::timeStepWorld() {
     ++timeStep;
     moveOrganisms();
-    if (timeStep % 3 == 0) breedAnts();
-    if (timeStep % 8 == 0) breedDoods();
+    if (checkWorldSpace() == false) {
+       return false;
+    }
+    else {
+        if (timeStep % 3 == 0) breedAnts();
+        if (timeStep % 8 == 0) breedDoods();
+    }
+    return true;
 }
 
-World::World(int numOfDoods, int numOfAnts) : timeStep(0) {
+bool World::checkWorldSpace() {
+    int numofOrganisms = 0;
+    for (int row = 0; row < 20; ++row) {
+        for (int column = 0; column < 20; ++ column) {
+            if (world[row][column] == 'o' ||
+                world[row][column] == 'X') ++numofOrganisms;
+        }
+    }
+    if (numofOrganisms == 400) {
+        cout << "Neither Organisms can breed!\n";
+        canBreed = false;
+    }
+    return canBreed;
+}
+
+World::World(int numOfDoods, int numOfAnts) : timeStep(0), canBreed(true){
     world = new char*[20];
     for (int i = 0; i < 20; ++i) {
         world[i] = new char[20];
@@ -54,9 +79,13 @@ World::World(int numOfDoods, int numOfAnts) : timeStep(0) {
                 world[row][column] = '-';
         }
     }
-    
+    createNewAnt(numOfAnts);
+    createNewDood(numOfDoods);
+}
+
+void World::createNewAnt(int numOfAnts) {
     for (int antdex = 0; antdex < numOfAnts; ++antdex) {
-        Ant* ant = new Ant();
+        Ant* ant = new Ant;
         if (ants.size() != 0) {
             while(world[ant->rowPlace][ant->columnPlace] != '-') {
                 delete ant;
@@ -66,7 +95,9 @@ World::World(int numOfDoods, int numOfAnts) : timeStep(0) {
         ants.push_back(*ant);
         world[ant->rowPlace][ant->columnPlace] = 'o';
     }
-    
+}
+
+void World::createNewDood(int numOfDoods) {
     for (int doodex = 0; doodex < numOfDoods; ++doodex) {
         Doodlebug* doodlebug = new Doodlebug();
         if (doodlebugs.size() != 0) {

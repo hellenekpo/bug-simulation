@@ -11,6 +11,8 @@
 
 class Doodlebug : public Organism {
 public:
+    Doodlebug(int row, int column);
+    Doodlebug();
     void move(World& theWorld);
     void starve();
     void breed(World& theWorld);

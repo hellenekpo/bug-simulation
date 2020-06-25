@@ -7,6 +7,8 @@
 
 class Ant : public Organism {
 public:
+    Ant();
+    Ant(int row, int column);
     void move(World& theWorld);
     void breed(World& theWorld);
 };
