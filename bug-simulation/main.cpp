@@ -21,13 +21,17 @@ int main() {
     << "They start preying on Ants and the population changes between timesteps!\n"
     << "Press the 'Enter' key to watch how the population changes between "
     << "timesteps!\n";
-    while (cin.get() == '\n') {
+//    while (cin.get() == '\n') {
+//        bool current = hellen.timeStepWorld();
+//        if (!current) {
+//            cout << "This is how the ecosystem has changed:\n";
+//            hellen.printWorld();
+//            break;
+//        }
+//        hellen.printWorld();
+//    }
+    for(int i = 0; i < 14; ++i) {
         hellen.timeStepWorld();
-        if (!hellen.timeStepWorld()) {
-            cout << "This is how the ecosystem has changed:\n";
-            hellen.printWorld();
-            break;
-        }
         hellen.printWorld();
     }
 }

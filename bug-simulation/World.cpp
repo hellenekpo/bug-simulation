@@ -43,12 +43,15 @@ void World::printWorld() const {
 bool World::timeStepWorld() {
     ++timeStep;
     moveOrganisms();
-    if (checkWorldSpace() == false) {
+    checkWorldSpace();
+    if (!canBreed) {
        return false;
     }
     else {
         if (timeStep % 3 == 0) breedAnts();
-        if (timeStep % 8 == 0) breedDoods();
+        if (timeStep % 8 == 0) {
+            breedDoods();
+        }
     }
     return true;
 }
@@ -57,11 +60,12 @@ bool World::checkWorldSpace() {
     int numofOrganisms = 0;
     for (int row = 0; row < 20; ++row) {
         for (int column = 0; column < 20; ++ column) {
-            if (world[row][column] == 'o' ||
-                world[row][column] == 'X') ++numofOrganisms;
+            if (world[row][column] != '-') {
+                ++numofOrganisms;
+            }
         }
     }
-    if (numofOrganisms == 400) {
+    if (numofOrganisms >= 400) {
         cout << "Neither Organisms can breed!\n";
         canBreed = false;
     }

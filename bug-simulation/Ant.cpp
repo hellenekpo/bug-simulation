@@ -3,7 +3,7 @@
 using namespace std;
 
 void Ant::move(World& theWorld) {
-    cout << "Ant moving...\n";
+    //cout << "Ant moving...\n";
     int direction = rand() % 4 + 1;
     Organism::move(theWorld, direction);
 }
@@ -12,8 +12,8 @@ Ant::Ant() : Organism() {}
 void Ant::breed(World& theWorld) {
     int newAntRow = 0, newAntColumn = 0;
     bool hasBred = false;
-    cout << "Ant ";
-    Organism::breed(theWorld);
+    //cout << "Ant ";
+    //Organism::breed(theWorld);
     if (rowPlace != 0 && theWorld.world[rowPlace-1][columnPlace] == '-') { // breeding up
         newAntRow = rowPlace - 1;
         newAntColumn = columnPlace;
@@ -24,7 +24,7 @@ void Ant::breed(World& theWorld) {
         newAntColumn = columnPlace + 1;
         hasBred = true;
     }
-    else if (rowPlace != 19 && theWorld.world[rowPlace+1][columnPlace] == 'o') { // breeding down
+    else if (rowPlace != 19 && theWorld.world[rowPlace+1][columnPlace] == '-') { // breeding down
         newAntRow = rowPlace + 1;
         newAntColumn = columnPlace;
         hasBred = true;
